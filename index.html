@@ -5330,12 +5330,27 @@ function syncFromFirebase() {
         renderDashboard();
         updateSaveStatus();
         if (_fbInitialSyncDone) showToast('☁️ Synced from cloud');
+      } else {
+        // Local is newer — push local up to cloud
+        pushToFirebase(getData());
       }
+    } else {
+      // Firebase is empty — push all local data up now
+      const localData = localStorage.getItem('wellness_data');
+      if (localData) {
+        pushToFirebase(JSON.parse(localData));
+        showToast('☁️ Uploading your existing data to cloud…');
+      }
+      // Push meal extras too
+      ['meal_favourites', 'custom_meals', 'meal_instructions'].forEach(function(key) {
+        const val = localStorage.getItem(key);
+        if (val) { try { pushExtraToFirebase(key, JSON.parse(val)); } catch(e) {} }
+      });
     }
     _fbInitialSyncDone = true;
     updateCloudStatus('connected');
 
-    // Pull meal extras
+    // Pull meal extras (only if Firebase has them)
     ['meal_favourites', 'custom_meals', 'meal_instructions'].forEach(function(key) {
       fbRef(key).once('value').then(function(s) {
         const v = s.val();
