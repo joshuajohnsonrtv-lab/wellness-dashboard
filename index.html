@@ -2069,7 +2069,7 @@ function openMobileMenu() {
   handle.ontouchend = function(e) {
     e.preventDefault();
     const dy = e.changedTouches[0].clientY - startY;
-    if (dy > 80) { closeMobileMenu(); }
+    if (dy > 40) { closeMobileMenu(); }
     else { drawer.style.transition = 'transform 0.2s ease'; drawer.style.transform = 'translateY(0)'; }
   };
 }
