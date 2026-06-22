@@ -424,7 +424,8 @@
   .pop { animation: pop 0.3s ease; }
 
   /* RESPONSIVE */
-  @media (max-width: 768px) {
+  /* ── TABLET ── */
+  @media (max-width: 768px) and (min-width: 641px) {
     #sidebar { width: 60px; }
     #sidebar .nav-item span:not(.icon) { display: none; }
     #sidebar .nav-section-label { display: none; }
@@ -434,6 +435,181 @@
     .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
     .overview-grid { grid-template-columns: repeat(2, 1fr); }
   }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    /* Hide desktop sidebar */
+    #sidebar { display: none !important; }
+
+    /* Main fills screen, padded for topbar + bottom nav */
+    #main {
+      margin-left: 0 !important;
+      padding: 58px 14px 90px !important;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    /* Show mobile elements */
+    #mobile-topbar { display: flex !important; }
+    #mobile-nav    { display: flex !important; }
+
+    /* Full-screen menu drawer */
+    #mobile-menu { display: flex !important; }
+
+    /* Grids → single column */
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr !important; }
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+
+    /* Page header text size */
+    .page-header h2 { font-size: 20px; }
+    .page-header p  { font-size: 12px; }
+
+    /* Cards comfortable padding */
+    .card { padding: 16px; }
+
+    /* Bigger tap targets */
+    .btn { min-height: 44px; padding: 10px 16px; font-size: 14px; }
+    input, select, textarea { font-size: 16px !important; } /* prevent iOS zoom */
+
+    /* Modals slide up from bottom */
+    .modal-overlay { align-items: flex-end !important; padding: 0 !important; }
+    .modal-box {
+      width: 100% !important;
+      max-width: 100% !important;
+      max-height: 92vh !important;
+      border-radius: 20px 20px 0 0 !important;
+      margin: 0 !important;
+    }
+
+    /* Meal cards full width */
+    .meal-idea-card { padding: 14px; }
+    .mic-emoji { font-size: 28px; }
+
+    /* Charts don't overflow */
+    canvas { max-width: 100%; }
+
+    /* Stat numbers adjust */
+    .stat-number { font-size: 28px !important; }
+  }
+
+  /* ── MOBILE TOPBAR ── */
+  #mobile-topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 54px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    z-index: 200;
+  }
+  #mobile-topbar-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  #mobile-topbar-cloud {
+    font-size: 11px;
+    cursor: pointer;
+  }
+  #mobile-topbar-menu {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-size: 22px;
+    cursor: pointer;
+    padding: 6px;
+    line-height: 1;
+  }
+
+  /* ── MOBILE BOTTOM NAV ── */
+  #mobile-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: 70px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    align-items: center;
+    justify-content: space-around;
+    z-index: 200;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .mob-nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 10px;
+    color: var(--muted);
+    transition: color 0.15s, background 0.15s;
+    min-width: 56px;
+  }
+  .mob-nav-btn .mob-icon { font-size: 22px; line-height: 1; }
+  .mob-nav-btn .mob-label { font-size: 10px; font-weight: 600; letter-spacing: 0.02em; }
+  .mob-nav-btn.active { color: var(--purple); }
+  .mob-nav-btn:active { background: rgba(139,92,246,0.1); }
+
+  /* ── MOBILE MENU DRAWER ── */
+  #mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    flex-direction: column;
+  }
+  #mobile-menu-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+  }
+  #mobile-menu-drawer {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--card);
+    border-radius: 24px 24px 0 0;
+    padding: 12px 0 calc(24px + env(safe-area-inset-bottom));
+    max-height: 88vh;
+    overflow-y: auto;
+  }
+  #mobile-menu-handle {
+    width: 40px; height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    margin: 0 auto 16px;
+  }
+  .mob-menu-section {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 10px 20px 4px;
+  }
+  .mob-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    transition: background 0.1s;
+  }
+  .mob-menu-item:active { background: var(--card2); }
+  .mob-menu-item .mob-menu-icon { font-size: 20px; width: 28px; text-align: center; }
+  .mob-menu-divider { height: 1px; background: var(--border); margin: 8px 20px; }
 
   /* JOURNAL MOOD */
   .mood-btn { font-size: 24px; cursor: pointer; padding: 4px; border-radius: 6px; transition: transform 0.15s, background 0.15s; display:inline-block; }
@@ -539,6 +715,67 @@
 </style>
 </head>
 <body>
+
+<!-- ══ MOBILE TOPBAR ══ -->
+<div id="mobile-topbar">
+  <div id="mobile-topbar-title">⚡ Wellness</div>
+  <div id="mobile-topbar-cloud" onclick="openFirebaseSetup()"></div>
+  <button id="mobile-topbar-menu" onclick="openMobileMenu()">☰</button>
+</div>
+
+<!-- ══ MOBILE BOTTOM NAV ══ -->
+<div id="mobile-nav">
+  <button class="mob-nav-btn active" id="mob-btn-dashboard" onclick="showPage('dashboard');setMobNav('dashboard')">
+    <span class="mob-icon">🏠</span><span class="mob-label">Home</span>
+  </button>
+  <button class="mob-nav-btn" id="mob-btn-gym" onclick="showPage('gym');setMobNav('gym')">
+    <span class="mob-icon">🏋️</span><span class="mob-label">Gym</span>
+  </button>
+  <button class="mob-nav-btn" id="mob-btn-diet" onclick="showPage('diet');setMobNav('diet')">
+    <span class="mob-icon">🥗</span><span class="mob-label">Diet</span>
+  </button>
+  <button class="mob-nav-btn" id="mob-btn-trends" onclick="showPage('trends');setMobNav('trends')">
+    <span class="mob-icon">📈</span><span class="mob-label">Insights</span>
+  </button>
+  <button class="mob-nav-btn" id="mob-btn-more" onclick="openMobileMenu()">
+    <span class="mob-icon">☰</span><span class="mob-label">More</span>
+  </button>
+</div>
+
+<!-- ══ MOBILE MENU DRAWER ══ -->
+<div id="mobile-menu">
+  <div id="mobile-menu-backdrop" onclick="closeMobileMenu()"></div>
+  <div id="mobile-menu-drawer">
+    <div id="mobile-menu-handle"></div>
+
+    <div class="mob-menu-section">Health</div>
+    <button class="mob-menu-item" onclick="showPage('sleep');setMobNav('sleep');closeMobileMenu()"><span class="mob-menu-icon">😴</span>Sleep</button>
+    <button class="mob-menu-item" onclick="showPage('hydration');setMobNav('hydration');closeMobileMenu()"><span class="mob-menu-icon">💧</span>Hydration</button>
+    <button class="mob-menu-item" onclick="showPage('mealideas');setMobNav('mealideas');closeMobileMenu()"><span class="mob-menu-icon">🍽️</span>Meal Ideas</button>
+    <button class="mob-menu-item" onclick="showPage('nafoods');setMobNav('nafoods');closeMobileMenu()"><span class="mob-menu-icon">🧂</span>Na:K Foods</button>
+
+    <div class="mob-menu-divider"></div>
+    <div class="mob-menu-section">Routine</div>
+    <button class="mob-menu-item" onclick="showPage('skincare');setMobNav('skincare');closeMobileMenu()"><span class="mob-menu-icon">🧴</span>Skincare</button>
+    <button class="mob-menu-item" onclick="showPage('facial');setMobNav('facial');closeMobileMenu()"><span class="mob-menu-icon">✨</span>Facial</button>
+    <button class="mob-menu-item" onclick="showPage('mewing');setMobNav('mewing');closeMobileMenu()"><span class="mob-menu-icon">😤</span>Mewing</button>
+    <button class="mob-menu-item" onclick="showPage('debloat');setMobNav('debloat');closeMobileMenu()"><span class="mob-menu-icon">🌊</span>Debloat</button>
+    <button class="mob-menu-item" onclick="showPage('retention');setMobNav('retention');closeMobileMenu()"><span class="mob-menu-icon">🔒</span>SR Tracker</button>
+
+    <div class="mob-menu-divider"></div>
+    <div class="mob-menu-section">Insights</div>
+    <button class="mob-menu-item" onclick="showPage('measurements');setMobNav('measurements');closeMobileMenu()"><span class="mob-menu-icon">📏</span>Measurements</button>
+    <button class="mob-menu-item" onclick="showPage('reportcard');setMobNav('reportcard');closeMobileMenu()"><span class="mob-menu-icon">🗒️</span>Report Card</button>
+    <button class="mob-menu-item" onclick="showPage('journal');setMobNav('journal');closeMobileMenu()"><span class="mob-menu-icon">✍️</span>Journal</button>
+    <button class="mob-menu-item" onclick="showPage('allrecords');setMobNav('allrecords');closeMobileMenu()"><span class="mob-menu-icon">📋</span>All Records</button>
+
+    <div class="mob-menu-divider"></div>
+    <div class="mob-menu-section">Settings</div>
+    <button class="mob-menu-item" onclick="openFirebaseSetup();closeMobileMenu()"><span class="mob-menu-icon">☁️</span>Cloud Sync</button>
+    <button class="mob-menu-item" onclick="exportData();closeMobileMenu()"><span class="mob-menu-icon">💾</span>Export Backup</button>
+    <button class="mob-menu-item" onclick="importData();closeMobileMenu()"><span class="mob-menu-icon">📂</span>Import Backup</button>
+  </div>
+</div>
 
 <!-- SIDEBAR -->
 <nav id="sidebar">
@@ -1774,14 +2011,62 @@ function formatDateFull(d) {
 }
 
 // ==================== NAVIGATION ====================
+// Page name map for mobile topbar
+const PAGE_NAMES = {
+  dashboard:'🏠 Dashboard', gym:'🏋️ Gym', sleep:'😴 Sleep', hydration:'💧 Hydration',
+  diet:'🥗 Diet', skincare:'🧴 Skincare', facial:'✨ Facial', mewing:'😤 Mewing',
+  debloat:'🌊 Debloat', retention:'🔒 SR Tracker', mealideas:'🍽️ Meal Ideas',
+  nafoods:'🧂 Na:K Foods', measurements:'📏 Measurements', trends:'📈 Trends',
+  reportcard:'🗒️ Report Card', journal:'✍️ Journal', allrecords:'📋 All Records'
+};
+
 function showPage(page) {
   // Destroy all charts before switching pages to avoid canvas reuse errors
   ['t-sleep','t-hydration','t-gym','t-consist','t-calories','weight','bodyfields'].forEach(destroyChart);
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
-  document.getElementById('nav-' + page).classList.add('active');
+  document.getElementById('nav-' + page)?.classList.add('active');
   renderPage(page);
+  // Update mobile topbar title
+  const titleEl = document.getElementById('mobile-topbar-title');
+  if (titleEl) titleEl.textContent = PAGE_NAMES[page] || '⚡ Wellness';
+  // Scroll to top
+  document.getElementById('main')?.scrollTo(0, 0);
+}
+
+function setMobNav(page) {
+  const bottomPages = ['dashboard','gym','diet','trends'];
+  document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+  if (bottomPages.includes(page)) {
+    document.getElementById('mob-btn-' + page)?.classList.add('active');
+  }
+}
+
+function openMobileMenu() {
+  document.getElementById('mobile-menu').style.display = 'flex';
+}
+
+function closeMobileMenu() {
+  document.getElementById('mobile-menu').style.display = 'none';
+}
+
+// Keep mobile cloud status in sync
+function updateCloudStatus(status) {
+  const configs = {
+    connected: ['☁️ Cloud sync on', 'var(--green)'],
+    syncing:   ['☁️ Syncing…', 'var(--amber)'],
+    offline:   ['⚠️ Cloud offline', 'var(--amber)'],
+    error:     ['❌ Sync error', 'var(--red)'],
+    off:       ['○ Cloud sync off', 'var(--muted)']
+  };
+  const pair = configs[status] || configs.off;
+  // Sidebar cloud status
+  const el = document.getElementById('cloud-status');
+  if (el) el.innerHTML = '<span style="color:' + pair[1] + '">' + pair[0] + '</span>';
+  // Mobile topbar cloud status
+  const mob = document.getElementById('mobile-topbar-cloud');
+  if (mob) mob.innerHTML = '<span style="color:' + pair[1] + ';font-size:11px">' + pair[0] + '</span>';
 }
 
 function renderPage(page) {
@@ -5396,20 +5681,6 @@ function pushToFirebase(data) {
 function pushExtraToFirebase(key, value) {
   if (!_fbEnabled || !_fbDb) return;
   fbRef(key).set(value).catch(function(e) { console.warn('Firebase push failed for ' + key, e); });
-}
-
-function updateCloudStatus(status) {
-  const el = document.getElementById('cloud-status');
-  if (!el) return;
-  const configs = {
-    connected: ['☁️ Cloud sync on', 'var(--green)'],
-    syncing:   ['☁️ Syncing…', 'var(--amber)'],
-    offline:   ['⚠️ Cloud offline', 'var(--amber)'],
-    error:     ['❌ Sync error', 'var(--red)'],
-    off:       ['○ Cloud sync off', 'var(--muted)']
-  };
-  const pair = configs[status] || configs.off;
-  el.innerHTML = '<span style="color:' + pair[1] + '">' + pair[0] + '</span>';
 }
 
 function openFirebaseSetup() {
