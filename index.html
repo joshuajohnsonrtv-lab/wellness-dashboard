@@ -540,25 +540,47 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 3px;
+    gap: 4px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 10px;
+    padding: 8px 28px;
+    border-radius: 12px;
     color: var(--muted);
     transition: color 0.15s, background 0.15s;
-    min-width: 56px;
+    flex: 1;
   }
-  .mob-nav-btn .mob-icon { font-size: 22px; line-height: 1; }
-  .mob-nav-btn .mob-label { font-size: 10px; font-weight: 600; letter-spacing: 0.02em; }
+  .mob-nav-btn .mob-icon { font-size: 24px; line-height: 1; }
+  .mob-nav-btn .mob-label { font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
   .mob-nav-btn.active { color: var(--purple); }
   .mob-nav-btn:active { background: rgba(139,92,246,0.1); }
 
-  /* ── MOBILE MENU (full screen) ── */
-  #mobile-menu {
-    display: none;
+  /* ── MOBILE MENU GRID ── */
+  .mob-menu-section-full {
+    grid-column: 1 / -1;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    padding: 10px 4px 4px;
   }
+  .mob-grid-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px 12px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    color: var(--text);
+  }
+  .mob-grid-card:active { background: var(--card); border-color: var(--purple); }
+  .mob-grid-emoji { font-size: 34px; line-height: 1; }
+  .mob-grid-label { font-size: 12px; font-weight: 600; text-align: center; color: var(--text); }
   .mob-menu-section {
     font-size: 10px;
     font-weight: 700;
@@ -700,57 +722,51 @@
 
 <!-- ══ MOBILE BOTTOM NAV ══ -->
 <div id="mobile-nav">
-  <button class="mob-nav-btn active" id="mob-btn-dashboard" onclick="showPage('dashboard');setMobNav('dashboard')">
+  <button class="mob-nav-btn" onclick="showPage('dashboard');closeMobileMenu()">
     <span class="mob-icon">🏠</span><span class="mob-label">Home</span>
   </button>
-  <button class="mob-nav-btn" id="mob-btn-gym" onclick="showPage('gym');setMobNav('gym')">
-    <span class="mob-icon">🏋️</span><span class="mob-label">Gym</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-btn-diet" onclick="showPage('diet');setMobNav('diet')">
-    <span class="mob-icon">🥗</span><span class="mob-label">Diet</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-btn-trends" onclick="showPage('trends');setMobNav('trends')">
-    <span class="mob-icon">📈</span><span class="mob-label">Insights</span>
-  </button>
-  <button class="mob-nav-btn" id="mob-btn-more" onclick="openMobileMenu()">
-    <span class="mob-icon">☰</span><span class="mob-label">More</span>
+  <button class="mob-nav-btn" onclick="openMobileMenu()">
+    <span class="mob-icon">☰</span><span class="mob-label">Menu</span>
   </button>
 </div>
 
-<!-- ══ MOBILE MENU (full screen) ══ -->
+<!-- ══ MOBILE MENU (full screen grid) ══ -->
 <div id="mobile-menu" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;-webkit-overflow-scrolling:touch;">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:1">
-    <div style="font-size:16px;font-weight:700;color:var(--purple)">⚡ All Sections</div>
-    <button onclick="closeMobileMenu()" style="background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+  <!-- Header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:1">
+    <div style="font-size:15px;font-weight:700;color:var(--purple)">⚡ Sections</div>
+    <button onclick="closeMobileMenu()" style="background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:50%;width:38px;height:38px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
   </div>
 
-  <div style="padding:8px 0 40px">
-    <div class="mob-menu-section">Health</div>
-    <button class="mob-menu-item" onclick="showPage('sleep');setMobNav('sleep');closeMobileMenu()"><span class="mob-menu-icon">😴</span>Sleep</button>
-    <button class="mob-menu-item" onclick="showPage('hydration');setMobNav('hydration');closeMobileMenu()"><span class="mob-menu-icon">💧</span>Hydration</button>
-    <button class="mob-menu-item" onclick="showPage('mealideas');setMobNav('mealideas');closeMobileMenu()"><span class="mob-menu-icon">🍽️</span>Meal Ideas</button>
-    <button class="mob-menu-item" onclick="showPage('nafoods');setMobNav('nafoods');closeMobileMenu()"><span class="mob-menu-icon">🧂</span>Na:K Foods</button>
+  <!-- Grid -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 16px 100px">
 
-    <div class="mob-menu-divider"></div>
-    <div class="mob-menu-section">Routine</div>
-    <button class="mob-menu-item" onclick="showPage('skincare');setMobNav('skincare');closeMobileMenu()"><span class="mob-menu-icon">🧴</span>Skincare</button>
-    <button class="mob-menu-item" onclick="showPage('facial');setMobNav('facial');closeMobileMenu()"><span class="mob-menu-icon">✨</span>Facial</button>
-    <button class="mob-menu-item" onclick="showPage('mewing');setMobNav('mewing');closeMobileMenu()"><span class="mob-menu-icon">😤</span>Mewing</button>
-    <button class="mob-menu-item" onclick="showPage('debloat');setMobNav('debloat');closeMobileMenu()"><span class="mob-menu-icon">🌊</span>Debloat</button>
-    <button class="mob-menu-item" onclick="showPage('retention');setMobNav('retention');closeMobileMenu()"><span class="mob-menu-icon">🔒</span>SR Tracker</button>
+    <div class="mob-menu-section-full">🏃 Health</div>
+    <button class="mob-grid-card" onclick="showPage('dashboard');closeMobileMenu()"><span class="mob-grid-emoji">🏠</span><span class="mob-grid-label">Dashboard</span></button>
+    <button class="mob-grid-card" onclick="showPage('gym');closeMobileMenu()"><span class="mob-grid-emoji">🏋️</span><span class="mob-grid-label">Gym</span></button>
+    <button class="mob-grid-card" onclick="showPage('sleep');closeMobileMenu()"><span class="mob-grid-emoji">😴</span><span class="mob-grid-label">Sleep</span></button>
+    <button class="mob-grid-card" onclick="showPage('hydration');closeMobileMenu()"><span class="mob-grid-emoji">💧</span><span class="mob-grid-label">Hydration</span></button>
+    <button class="mob-grid-card" onclick="showPage('diet');closeMobileMenu()"><span class="mob-grid-emoji">🥗</span><span class="mob-grid-label">Diet</span></button>
+    <button class="mob-grid-card" onclick="showPage('mealideas');closeMobileMenu()"><span class="mob-grid-emoji">🍽️</span><span class="mob-grid-label">Meal Ideas</span></button>
+    <button class="mob-grid-card" onclick="showPage('nafoods');closeMobileMenu()"><span class="mob-grid-emoji">🧂</span><span class="mob-grid-label">Na:K Foods</span></button>
 
-    <div class="mob-menu-divider"></div>
-    <div class="mob-menu-section">Insights</div>
-    <button class="mob-menu-item" onclick="showPage('measurements');setMobNav('measurements');closeMobileMenu()"><span class="mob-menu-icon">📏</span>Measurements</button>
-    <button class="mob-menu-item" onclick="showPage('reportcard');setMobNav('reportcard');closeMobileMenu()"><span class="mob-menu-icon">🗒️</span>Report Card</button>
-    <button class="mob-menu-item" onclick="showPage('journal');setMobNav('journal');closeMobileMenu()"><span class="mob-menu-icon">✍️</span>Journal</button>
-    <button class="mob-menu-item" onclick="showPage('allrecords');setMobNav('allrecords');closeMobileMenu()"><span class="mob-menu-icon">📋</span>All Records</button>
+    <div class="mob-menu-section-full">🧴 Routine</div>
+    <button class="mob-grid-card" onclick="showPage('skincare');closeMobileMenu()"><span class="mob-grid-emoji">🧴</span><span class="mob-grid-label">Skincare</span></button>
+    <button class="mob-grid-card" onclick="showPage('facial');closeMobileMenu()"><span class="mob-grid-emoji">✨</span><span class="mob-grid-label">Facial</span></button>
+    <button class="mob-grid-card" onclick="showPage('mewing');closeMobileMenu()"><span class="mob-grid-emoji">😤</span><span class="mob-grid-label">Mewing</span></button>
+    <button class="mob-grid-card" onclick="showPage('debloat');closeMobileMenu()"><span class="mob-grid-emoji">🌊</span><span class="mob-grid-label">Debloat</span></button>
+    <button class="mob-grid-card" onclick="showPage('retention');closeMobileMenu()"><span class="mob-grid-emoji">🔒</span><span class="mob-grid-label">SR Tracker</span></button>
 
-    <div class="mob-menu-divider"></div>
-    <div class="mob-menu-section">Settings</div>
-    <button class="mob-menu-item" onclick="openFirebaseSetup();closeMobileMenu()"><span class="mob-menu-icon">☁️</span>Cloud Sync</button>
-    <button class="mob-menu-item" onclick="exportData();closeMobileMenu()"><span class="mob-menu-icon">💾</span>Export Backup</button>
-    <button class="mob-menu-item" onclick="importData();closeMobileMenu()"><span class="mob-menu-icon">📂</span>Import Backup</button>
+    <div class="mob-menu-section-full">📈 Insights</div>
+    <button class="mob-grid-card" onclick="showPage('measurements');closeMobileMenu()"><span class="mob-grid-emoji">📏</span><span class="mob-grid-label">Measurements</span></button>
+    <button class="mob-grid-card" onclick="showPage('trends');closeMobileMenu()"><span class="mob-grid-emoji">📈</span><span class="mob-grid-label">Trends</span></button>
+    <button class="mob-grid-card" onclick="showPage('reportcard');closeMobileMenu()"><span class="mob-grid-emoji">🗒️</span><span class="mob-grid-label">Report Card</span></button>
+    <button class="mob-grid-card" onclick="showPage('journal');closeMobileMenu()"><span class="mob-grid-emoji">✍️</span><span class="mob-grid-label">Journal</span></button>
+    <button class="mob-grid-card" onclick="showPage('allrecords');closeMobileMenu()"><span class="mob-grid-emoji">📋</span><span class="mob-grid-label">All Records</span></button>
+
+    <div class="mob-menu-section-full">⚙️ Settings</div>
+    <button class="mob-grid-card" onclick="openFirebaseSetup();closeMobileMenu()"><span class="mob-grid-emoji">☁️</span><span class="mob-grid-label">Cloud Sync</span></button>
+    <button class="mob-grid-card" onclick="exportData();closeMobileMenu()"><span class="mob-grid-emoji">💾</span><span class="mob-grid-label">Export</span></button>
   </div>
 </div>
 
