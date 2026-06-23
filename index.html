@@ -556,35 +556,9 @@
   .mob-nav-btn.active { color: var(--purple); }
   .mob-nav-btn:active { background: rgba(139,92,246,0.1); }
 
-  /* ── MOBILE MENU DRAWER ── */
+  /* ── MOBILE MENU (full screen) ── */
   #mobile-menu {
     display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 300;
-    flex-direction: column;
-  }
-  #mobile-menu-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
-  }
-  #mobile-menu-drawer {
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    background: var(--card);
-    border-radius: 24px 24px 0 0;
-    padding: 12px 0 calc(24px + env(safe-area-inset-bottom));
-    max-height: 88vh;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
-  }
-  #mobile-menu-handle {
-    width: 40px; height: 4px;
-    background: var(--border);
-    border-radius: 2px;
-    margin: 0 auto 16px;
   }
   .mob-menu-section {
     font-size: 10px;
@@ -744,12 +718,14 @@
   </button>
 </div>
 
-<!-- ══ MOBILE MENU DRAWER ══ -->
-<div id="mobile-menu">
-  <div id="mobile-menu-backdrop" ontouchend="event.preventDefault();closeMobileMenu()"></div>
-  <div id="mobile-menu-drawer">
-    <div id="mobile-menu-handle"></div>
+<!-- ══ MOBILE MENU (full screen) ══ -->
+<div id="mobile-menu" style="display:none;position:fixed;inset:0;background:var(--bg);z-index:300;overflow-y:auto;-webkit-overflow-scrolling:touch;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:1">
+    <div style="font-size:16px;font-weight:700;color:var(--purple)">⚡ All Sections</div>
+    <button onclick="closeMobileMenu()" style="background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:50%;width:36px;height:36px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1">✕</button>
+  </div>
 
+  <div style="padding:8px 0 40px">
     <div class="mob-menu-section">Health</div>
     <button class="mob-menu-item" onclick="showPage('sleep');setMobNav('sleep');closeMobileMenu()"><span class="mob-menu-icon">😴</span>Sleep</button>
     <button class="mob-menu-item" onclick="showPage('hydration');setMobNav('hydration');closeMobileMenu()"><span class="mob-menu-icon">💧</span>Hydration</button>
@@ -2046,48 +2022,11 @@ function setMobNav(page) {
 }
 
 function openMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const drawer = document.getElementById('mobile-menu-drawer');
-  menu.style.display = 'flex';
-  drawer.style.transition = 'transform 0.3s ease';
-  drawer.style.transform = 'translateY(0)';
-  // Lock body scroll to prevent pull-to-refresh
-  document.body.style.overflow = 'hidden';
-  document.body.style.position = 'fixed';
-  document.body.style.width = '100%';
-
-  // Swipe handle down to close
-  const handle = document.getElementById('mobile-menu-handle');
-  let startY = 0;
-  handle.ontouchstart = function(e) { startY = e.touches[0].clientY; e.preventDefault(); };
-  handle.ontouchmove  = function(e) {
-    e.preventDefault();
-    const dy = Math.max(0, e.touches[0].clientY - startY);
-    drawer.style.transition = 'none';
-    drawer.style.transform = 'translateY(' + dy + 'px)';
-  };
-  handle.ontouchend = function(e) {
-    e.preventDefault();
-    const dy = e.changedTouches[0].clientY - startY;
-    if (dy > 40) { closeMobileMenu(); }
-    else { drawer.style.transition = 'transform 0.2s ease'; drawer.style.transform = 'translateY(0)'; }
-  };
+  document.getElementById('mobile-menu').style.display = 'block';
 }
 
 function closeMobileMenu() {
-  const menu = document.getElementById('mobile-menu');
-  const drawer = document.getElementById('mobile-menu-drawer');
-  drawer.style.transition = 'transform 0.25s ease';
-  drawer.style.transform = 'translateY(100%)';
-  // Restore body scroll
-  document.body.style.overflow = '';
-  document.body.style.position = '';
-  document.body.style.width = '';
-  setTimeout(function() {
-    menu.style.display = 'none';
-    drawer.style.transform = '';
-    drawer.style.transition = '';
-  }, 260);
+  document.getElementById('mobile-menu').style.display = 'none';
 }
 
 // Keep mobile cloud status in sync
