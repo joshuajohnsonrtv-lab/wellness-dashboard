@@ -709,6 +709,56 @@
 
   .section-title { font-size: 16px; font-weight: 600; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
   .tip { font-size: 11px; color: var(--muted); background: rgba(139,92,246,0.08); border: 1px solid rgba(139,92,246,0.2); border-radius: 8px; padding: 8px 12px; margin-top: 8px; }
+
+  /* ── LOOKSMAXXING ── */
+  .looksmax-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .looksmax-photo-slot {
+    position: relative; border: 2px dashed var(--border); border-radius: var(--radius);
+    overflow: hidden; aspect-ratio: 3/4; display: flex; align-items: center;
+    justify-content: center; flex-direction: column; gap: 6px; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; background: var(--card2);
+  }
+  .looksmax-photo-slot:hover { border-color: var(--purple); background: var(--card); }
+  .looksmax-photo-slot img { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; }
+  .looksmax-photo-slot .lm-overlay {
+    position:absolute; inset:0; background:rgba(0,0,0,0.45); display:flex;
+    align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s;
+  }
+  .looksmax-photo-slot:hover .lm-overlay { opacity:1; }
+  .looksmax-photo-label {
+    position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.65);
+    color:#fff; font-size:12px; font-weight:700; text-align:center; padding:7px 6px;
+    letter-spacing:0.04em; text-transform:uppercase;
+  }
+  .looksmax-photo-add-icon { font-size:30px; color:var(--muted); }
+  .looksmax-photo-add-text { font-size:11px; color:var(--muted); text-align:center; padding: 0 8px; }
+  .lm-delete-btn {
+    position:absolute; top:8px; right:8px; background:rgba(0,0,0,0.6); border:none;
+    color:#fff; border-radius:50%; width:28px; height:28px; font-size:14px; cursor:pointer;
+    display:none; align-items:center; justify-content:center; z-index:2;
+  }
+  .looksmax-photo-slot:hover .lm-delete-btn { display:flex; }
+  .guidance-tip {
+    display:flex; gap:12px; align-items:flex-start; padding:12px 14px;
+    background:var(--card2); border-radius:var(--radius-sm); margin-bottom:8px;
+    border-left:3px solid var(--purple);
+  }
+  .guidance-tip-icon { font-size:22px; flex-shrink:0; margin-top:1px; }
+  .guidance-tip-body { flex:1; }
+  .guidance-tip-title { font-size:13px; font-weight:700; color:var(--text); margin-bottom:3px; }
+  .guidance-tip-text { font-size:12.5px; color:var(--muted2); line-height:1.55; }
+  .primal-row { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); align-items:flex-start; }
+  .primal-row:last-child { border-bottom:none; }
+  .primal-meal-time { font-size:11px; font-weight:700; color:var(--amber); text-transform:uppercase; width:70px; flex-shrink:0; padding-top:2px; }
+  .primal-meal-text { font-size:13px; color:var(--text); line-height:1.5; }
+  .lm-tab-row { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+  .lm-tab { padding:7px 14px; border-radius:20px; border:1px solid var(--border); background:var(--card2); color:var(--muted2); font-size:13px; font-weight:600; cursor:pointer; transition:all 0.15s; }
+  .lm-tab.active { background:var(--purple); border-color:var(--purple); color:#fff; }
+  .lm-section { display:none; }
+  .lm-section.active { display:block; }
+  .lm-shopping-item { display:flex; gap:8px; align-items:center; padding:8px 10px; background:var(--card2); border-radius:var(--radius-sm); margin-bottom:6px; font-size:13px; }
+  .lm-shopping-item .qty { font-size:12px; color:var(--amber); font-weight:700; min-width:80px; }
+  .lm-shopping-item .item { color:var(--text); }
 </style>
 </head>
 <body>
@@ -756,6 +806,10 @@
     <button class="mob-grid-card" onclick="showPage('mewing');closeMobileMenu()"><span class="mob-grid-emoji">😤</span><span class="mob-grid-label">Mewing</span></button>
     <button class="mob-grid-card" onclick="showPage('debloat');closeMobileMenu()"><span class="mob-grid-emoji">🌊</span><span class="mob-grid-label">Debloat</span></button>
     <button class="mob-grid-card" onclick="showPage('retention');closeMobileMenu()"><span class="mob-grid-emoji">🔒</span><span class="mob-grid-label">SR Tracker</span></button>
+
+    <div class="mob-menu-section-full">🪞 Looksmax</div>
+    <button class="mob-grid-card" onclick="showPage('looksmax');closeMobileMenu()"><span class="mob-grid-emoji">🪞</span><span class="mob-grid-label">Looksmaxxing</span></button>
+    <button class="mob-grid-card" onclick="showPage('mealideas');document.querySelector&&(document.getElementById('meal-goal-btn-looksmax')&&document.getElementById('meal-goal-btn-looksmax').click());closeMobileMenu()"><span class="mob-grid-emoji">🥩</span><span class="mob-grid-label">Primal Diet</span></button>
 
     <div class="mob-menu-section-full">📈 Insights</div>
     <button class="mob-grid-card" onclick="showPage('measurements');closeMobileMenu()"><span class="mob-grid-emoji">📏</span><span class="mob-grid-label">Measurements</span></button>
@@ -814,6 +868,10 @@
   </div>
   <div class="nav-item" onclick="showPage('nafoods')" id="nav-nafoods">
     <span class="icon">🧂</span><span>Na:K Foods</span>
+  </div>
+  <div class="nav-section-label">Looksmax</div>
+  <div class="nav-item" onclick="showPage('looksmax')" id="nav-looksmax">
+    <span class="icon">🪞</span><span>Looksmaxxing</span>
   </div>
   <div class="nav-section-label">Insights</div>
   <div class="nav-item" onclick="showPage('measurements')" id="nav-measurements">
@@ -1172,6 +1230,321 @@
     </div>
   </div>
 
+  <!-- ========== LOOKSMAXXING ========== -->
+  <div class="page" id="page-looksmax">
+    <div class="page-header">
+      <div>
+        <h2>🪞 Looksmaxxing</h2>
+        <p>Track your transformation — before &amp; after, facial exercises, diet, and guidance</p>
+      </div>
+    </div>
+
+    <!-- Tab Nav -->
+    <div class="lm-tab-row">
+      <button class="lm-tab active" onclick="switchLmTab('overview')">📸 Overview</button>
+      <button class="lm-tab" onclick="switchLmTab('exercises')">✨ Exercises</button>
+      <button class="lm-tab" onclick="switchLmTab('diet')">🥩 Primal Diet</button>
+      <button class="lm-tab" onclick="switchLmTab('guidance')">💡 Guidance</button>
+    </div>
+
+    <!-- ── OVERVIEW TAB ── -->
+    <div class="lm-section active" id="lm-tab-overview">
+      <!-- Before/After photos -->
+      <div class="card">
+        <div class="card-title">📸 Before &amp; Goal Photos</div>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:14px">Upload your starting photos on the left. Add your goal/inspiration images on the right. Stored locally on this device.</p>
+        <div class="looksmax-photo-grid">
+          <!-- BEFORE column -->
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--muted2);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">📷 Before</div>
+            <div id="lm-before-photos" style="display:grid;grid-template-columns:1fr;gap:10px"></div>
+            <button class="btn btn-outline" style="width:100%;margin-top:10px;font-size:13px" onclick="addLmPhoto('before')">+ Add Before Photo</button>
+          </div>
+          <!-- GOAL column -->
+          <div>
+            <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.05em">🎯 Goal</div>
+            <div id="lm-goal-photos" style="display:grid;grid-template-columns:1fr;gap:10px"></div>
+            <button class="btn btn-outline" style="width:100%;margin-top:10px;font-size:13px" onclick="addLmPhoto('goal')">+ Add Goal Photo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="card">
+        <div class="card-title">📊 Looksmax Score Today</div>
+        <div id="lm-today-score" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px"></div>
+      </div>
+    </div>
+
+    <!-- ── EXERCISES TAB ── -->
+    <div class="lm-section" id="lm-tab-exercises">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">✨ Daily Facial Exercises</div>
+          <p style="font-size:12px;color:var(--muted);margin-bottom:12px">Tick off each exercise. Data is shared with the Facial page.</p>
+          <div id="lm-facial-checklist"></div>
+          <div class="inline-add" style="margin-top:12px">
+            <input type="text" id="lm-facial-new" placeholder="Add exercise...">
+            <button class="btn btn-primary btn-sm" onclick="addLmFacialExercise()">Add</button>
+          </div>
+          <hr class="divider">
+          <button class="btn btn-primary" style="width:100%" onclick="saveLmFacialNotes()">Save Log</button>
+        </div>
+        <div class="card">
+          <div class="card-title">🏆 Exercise Guide</div>
+          <div class="guidance-tip">
+            <div class="guidance-tip-icon">👁️</div>
+            <div class="guidance-tip-body">
+              <div class="guidance-tip-title">Eye Area &amp; Orbital Bone</div>
+              <div class="guidance-tip-text">Squint exercises: close eyes tightly for 3s, relax. 3×10 reps. Look side to side with only your eyes (not head) slowly. Helps reduce puffiness and define the orbital area.</div>
+            </div>
+          </div>
+          <div class="guidance-tip">
+            <div class="guidance-tip-icon">🦷</div>
+            <div class="guidance-tip-body">
+              <div class="guidance-tip-title">Jaw &amp; Masseter</div>
+              <div class="guidance-tip-text">Chew mastic gum daily (20–30 min). Wide jaw stretch: open mouth as wide as possible, hold 5s. Side-to-side jaw slides: 3×15. Builds the masseter for a stronger jawline.</div>
+            </div>
+          </div>
+          <div class="guidance-tip">
+            <div class="guidance-tip-icon">👄</div>
+            <div class="guidance-tip-body">
+              <div class="guidance-tip-title">Lip &amp; Philtrum</div>
+              <div class="guidance-tip-text">Pursed lip hold: pucker lips, hold for 10s, release. 3×10. Keep lips together and relaxed throughout the day to shorten philtrum over time.</div>
+            </div>
+          </div>
+          <div class="guidance-tip">
+            <div class="guidance-tip-icon">💆</div>
+            <div class="guidance-tip-body">
+              <div class="guidance-tip-title">Cheekbones &amp; Zygomatic</div>
+              <div class="guidance-tip-text">Big smile hold: smile as wide as possible showing teeth, hold 10s. 3×10. Combine with mewing to push tongue against palate — together these help widen the midface.</div>
+            </div>
+          </div>
+          <div class="guidance-tip">
+            <div class="guidance-tip-icon">🧘</div>
+            <div class="guidance-tip-body">
+              <div class="guidance-tip-title">Neck &amp; Chin</div>
+              <div class="guidance-tip-text">Chin tucks: retract chin straight back (like making a double chin), hold 5s, repeat 15×. Neck curls: lying down, lift head slightly off pillow, 3×12. Reduces neck fat and improves forward head posture.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DIET TAB ── -->
+    <div class="lm-section" id="lm-tab-diet">
+      <div class="card">
+        <div class="card-title">🥩 Primal Diet — Overview</div>
+        <p style="font-size:13px;color:var(--muted2);line-height:1.6;margin-bottom:14px">Follow a simple whole-food primal diet based around nutrient-dense animal foods and minimally processed carbohydrates. Prioritise high-quality, locally sourced ingredients. Primary supplier: <strong style="color:var(--amber)">Dora's Dairy, Purton (near Swindon)</strong> — raw milk &amp; grass-fed beef.</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <div style="background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.3);border-radius:10px;padding:10px 14px;flex:1;min-width:120px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🥚</div>
+            <div style="font-size:16px;font-weight:700;color:var(--amber)">12</div>
+            <div style="font-size:11px;color:var(--muted)">eggs / day</div>
+          </div>
+          <div style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.3);border-radius:10px;padding:10px 14px;flex:1;min-width:120px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🥩</div>
+            <div style="font-size:16px;font-weight:700;color:var(--green)">600–800g</div>
+            <div style="font-size:11px;color:var(--muted)">beef / day</div>
+          </div>
+          <div style="background:rgba(6,182,212,0.1);border:1px solid rgba(6,182,212,0.3);border-radius:10px;padding:10px 14px;flex:1;min-width:120px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🥛</div>
+            <div style="font-size:16px;font-weight:700;color:var(--cyan)">1–1.5L</div>
+            <div style="font-size:11px;color:var(--muted)">raw milk / day</div>
+          </div>
+          <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.3);border-radius:10px;padding:10px 14px;flex:1;min-width:120px;text-align:center">
+            <div style="font-size:22px;margin-bottom:4px">🍠</div>
+            <div style="font-size:16px;font-weight:700;color:var(--purple)">600g–1kg</div>
+            <div style="font-size:11px;color:var(--muted)">sweet potato</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.2);border-radius:8px;padding:8px 12px">
+          💰 <strong>Estimated cost:</strong> £14–17/day (500g beef) · £18–27/day (700–800g beef)
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🍽️ Daily Meal Plan</div>
+        <div class="primal-row">
+          <div class="primal-meal-time">☀️ Breakfast</div>
+          <div class="primal-meal-text">
+            <strong>6 eggs</strong> cooked in butter or beef tallow<br>
+            <strong>300–500 mL raw milk</strong><br>
+            <strong>1 tbsp raw honey</strong> (optional)
+          </div>
+        </div>
+        <div class="primal-row">
+          <div class="primal-meal-time">🌤 Lunch</div>
+          <div class="primal-meal-text">
+            <strong>300–400 g grass-fed beef</strong><br>
+            <strong>300–500 g baked sweet potato</strong> with butter<br>
+            Salt to taste
+          </div>
+        </div>
+        <div class="primal-row">
+          <div class="primal-meal-time">🍎 Snack</div>
+          <div class="primal-meal-text">
+            <strong>300–500 mL raw milk</strong><br>
+            <strong>1–2 tbsp raw honey</strong> (especially on training days)
+          </div>
+        </div>
+        <div class="primal-row">
+          <div class="primal-meal-time">🌙 Dinner</div>
+          <div class="primal-meal-text">
+            <strong>300–400 g grass-fed beef</strong><br>
+            <strong>300–500 g sweet potato</strong><br>
+            <strong>6 eggs</strong>
+          </div>
+        </div>
+        <div class="primal-row">
+          <div class="primal-meal-time">🌙 Before Bed</div>
+          <div class="primal-meal-text">
+            <strong>250–500 mL raw milk</strong> (optional)
+          </div>
+        </div>
+        <div class="primal-row" style="background:rgba(139,92,246,0.06);border-radius:8px;padding:10px;margin-top:4px;border:1px solid rgba(139,92,246,0.2);display:block">
+          <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:6px">📅 Weekly Additions</div>
+          <div class="primal-meal-text">
+            • <strong>100–150 g beef liver</strong> once per week (micronutrient powerhouse)<br>
+            • <strong>Optional fruit</strong>: berries, oranges, bananas, kiwi — a few times per week
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🛒 Weekly Shopping List</div>
+        <div class="lm-shopping-item"><span class="qty">84 eggs</span><span class="item">7 dozen — keep in fridge, last several weeks</span></div>
+        <div class="lm-shopping-item"><span class="qty">3.5–5 kg</span><span class="item">Grass-fed beef — freeze most immediately, thaw as needed</span></div>
+        <div class="lm-shopping-item"><span class="qty">5–7 kg</span><span class="item">Sweet potatoes — cool dark cupboard, last several weeks</span></div>
+        <div class="lm-shopping-item"><span class="qty">7 L</span><span class="item">Raw milk — coldest part of fridge, consume within 5–7 days</span></div>
+        <div class="lm-shopping-item"><span class="qty">1 jar</span><span class="item">Raw honey — room temperature, lasts months</span></div>
+        <div class="lm-shopping-item"><span class="qty">250–500 g</span><span class="item">Butter or beef tallow for cooking</span></div>
+        <div class="lm-shopping-item"><span class="qty">100–150 g</span><span class="item">Beef liver (weekly)</span></div>
+        <div class="tip" style="margin-top:10px">🏪 Primary supplier: <strong>Dora's Dairy, Purton (near Swindon)</strong> for raw milk &amp; grass-fed beef. Buy once every 7 days to keep costs and travel low while keeping food fresh.</div>
+      </div>
+    </div>
+
+    <!-- ── GUIDANCE TAB ── -->
+    <div class="lm-section" id="lm-tab-guidance">
+      <!-- Sleep -->
+      <div class="card">
+        <div class="card-title">😴 Sleep Guidance</div>
+        <p style="font-size:13px;color:var(--muted2);margin-bottom:12px;line-height:1.6">Sleep is when your body releases growth hormone and repairs tissue. This is arguably the most important looksmaxxing variable — no stack or routine compensates for poor sleep.</p>
+        <div class="guidance-tip" style="border-left-color:var(--purple)">
+          <div class="guidance-tip-icon">⏰</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Target 8–9 Hours</div>
+            <div class="guidance-tip-text">Growth hormone peaks during the first few hours of deep sleep. Getting 8–9 hours consistently supports bone density, skin cell turnover, collagen production, and fat metabolism — all directly impacting looks.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--cyan)">
+          <div class="guidance-tip-icon">🌙</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Fixed Sleep Schedule</div>
+            <div class="guidance-tip-text">Go to bed and wake at the same time every day — including weekends. Your body's circadian rhythm regulates cortisol and testosterone. A regular schedule lowers baseline cortisol, which directly reduces puffiness and acne.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--amber)">
+          <div class="guidance-tip-icon">📱</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">No Screens 1 Hour Before Bed</div>
+            <div class="guidance-tip-text">Blue light suppresses melatonin. Dim lights, avoid phone/TV for 60 min before sleep. Use orange or red tinted lights in the evening. This alone dramatically improves sleep quality and next-day skin appearance.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--green)">
+          <div class="guidance-tip-icon">🛏️</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Sleep Position</div>
+            <div class="guidance-tip-text">Sleep on your back where possible. Side sleeping causes sleep wrinkles and facial asymmetry over time from years of pressure. Back sleeping also reduces puffiness as fluid drains away from the face. Use a firm pillow to maintain neck alignment.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--red)">
+          <div class="guidance-tip-icon">🌡️</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Cool, Dark Room</div>
+            <div class="guidance-tip-text">Optimal sleep temperature is 16–19°C. Darkness triggers melatonin — use blackout curtains or an eye mask. Cold air + darkness = deeper sleep = more GH release.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Water -->
+      <div class="card">
+        <div class="card-title">💧 Water Intake Guidance</div>
+        <p style="font-size:13px;color:var(--muted2);margin-bottom:12px;line-height:1.6">Hydration directly affects skin plumpness, under-eye puffiness, acne frequency, and overall facial appearance. Dehydration makes skin look sunken, dull, and aged.</p>
+        <div class="guidance-tip" style="border-left-color:var(--cyan)">
+          <div class="guidance-tip-icon">💧</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Daily Target: 3–4 Litres</div>
+            <div class="guidance-tip-text">Aim for 3L minimum on rest days, 4L+ on training days. The standard "8 glasses" is a minimum — looksmaxxers aim higher. Spread intake throughout the day rather than drinking large amounts at once.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--blue)">
+          <div class="guidance-tip-icon">🌅</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">First Glass on Waking</div>
+            <div class="guidance-tip-text">Drink 500 mL of water immediately on waking — before coffee, before food. This flushes cortisol, rehydrates after sleep, and kickstarts lymphatic drainage which reduces under-eye puffiness.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--green)">
+          <div class="guidance-tip-icon">🧂</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Salt Your Food — Don't Fear It</div>
+            <div class="guidance-tip-text">On this diet, salt generously — sodium is needed for muscle function and aldosterone regulation. The raw milk and beef naturally support sodium-potassium balance. Avoid processed sodium (ready meals, sauces) but use real sea salt freely on food.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--amber)">
+          <div class="guidance-tip-icon">☕</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Limit Caffeine After 2 pm</div>
+            <div class="guidance-tip-text">Caffeine is a diuretic and disrupts sleep if consumed late. Stick to 1–2 coffees before noon. Replace afternoon drinks with water, raw milk, or herbal tea. Better sleep = better skin = better looks.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Posture -->
+      <div class="card">
+        <div class="card-title">🧍 Posture Guidance</div>
+        <p style="font-size:13px;color:var(--muted2);margin-bottom:12px;line-height:1.6">Good posture dramatically changes how you look and carry yourself — it makes you appear taller, more confident, and your facial structure becomes more visible when your neck is upright.</p>
+        <div class="guidance-tip" style="border-left-color:var(--purple)">
+          <div class="guidance-tip-icon">🦷</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Mewing Posture — Tongue on Palate</div>
+            <div class="guidance-tip-text">Keep the full tongue resting on the roof of your mouth at all times. This positions the lower jaw forward, lifts the hyoid bone, and when done consistently over years, influences forward facial growth and jaw definition.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--green)">
+          <div class="guidance-tip-icon">📐</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Forward Head Posture Fix</div>
+            <div class="guidance-tip-text">Do chin tucks 3×15 daily. When sitting, ears should be directly above shoulders — not in front. Every centimetre of forward head posture adds ~5kg of strain on the cervical spine and rounds the upper back, which makes you look shorter and weaker.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--cyan)">
+          <div class="guidance-tip-icon">🏋️</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Upper Back &amp; Neck Strength</div>
+            <div class="guidance-tip-text">Train the posterior chain: face pulls, band pull-aparts, rear delt flyes, and rows. Weak rear delts and traps cause rounded shoulders — this makes your frame look narrower and less imposing than it is. Aim for 2–3 posture-specific sets daily.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--amber)">
+          <div class="guidance-tip-icon">🪑</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Desk &amp; Phone Habits</div>
+            <div class="guidance-tip-text">Hold your phone at eye level — not chin-level. At a desk, screen should be at eye height, chair adjusted so hips are above knees. Set a posture reminder every 30 min. Prolonged neck flexion (looking down at phone) accelerates neck ageing and affects jawline over time.</div>
+          </div>
+        </div>
+        <div class="guidance-tip" style="border-left-color:var(--red)">
+          <div class="guidance-tip-icon">😮‍💨</div>
+          <div class="guidance-tip-body">
+            <div class="guidance-tip-title">Nasal Breathing — Always</div>
+            <div class="guidance-tip-text">Mouth breathing widens the lower face, drops the chin, and narrows the palate over time. Keep lips sealed and breathe through your nose at all times — during exercise, sleep, and at rest. Tape your mouth shut at night if you mouth-breathe during sleep (use medical tape).</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
   <!-- ========== DEBLOAT ========== -->
   <div class="page" id="page-debloat">
     <div class="page-header">
@@ -1493,6 +1866,7 @@
         <button class="toggle-btn" onclick="setMealGoal('weight')">⚖️ Weight Gain</button>
         <button class="toggle-btn" onclick="setMealGoal('highprotein')">🏋️ High Protein</button>
         <button class="toggle-btn" onclick="setMealGoal('bulk')">💥 Bulk</button>
+        <button class="toggle-btn" id="meal-goal-btn-looksmax" onclick="setMealGoal('looksmax')" style="border-color:var(--amber);color:var(--amber)">🪞 Looksmax</button>
         <button class="toggle-btn" onclick="setMealGoal('favourites')" style="border-color:var(--red);color:var(--red)">❤️ Favourites</button>
         <button class="toggle-btn" onclick="setMealGoal('mymeal')" style="border-color:var(--purple);color:var(--purple)">🧑‍🍳 My Meals</button>
       </div>
@@ -2010,7 +2384,8 @@ const PAGE_NAMES = {
   diet:'🥗 Diet', skincare:'🧴 Skincare', facial:'✨ Facial', mewing:'😤 Mewing',
   debloat:'🌊 Debloat', retention:'🔒 SR Tracker', mealideas:'🍽️ Meal Ideas',
   nafoods:'🧂 Na:K Foods', measurements:'📏 Measurements', trends:'📈 Trends',
-  reportcard:'🗒️ Report Card', journal:'✍️ Journal', allrecords:'📋 All Records'
+  reportcard:'🗒️ Report Card', journal:'✍️ Journal', allrecords:'📋 All Records',
+  looksmax:'🪞 Looksmaxxing'
 };
 
 function showPage(page) {
@@ -2080,7 +2455,8 @@ function renderPage(page) {
     trends: renderTrends,
     reportcard: renderReportCard,
     journal: renderJournal,
-    nafoods: renderNaFoods
+    nafoods: renderNaFoods,
+    looksmax: renderLooksmax
   };
   if(fns[page]) fns[page]();
 }
@@ -3807,6 +4183,10 @@ const MEAL_GOAL_INFO = {
   bulk: {
     color: 'var(--pink)',
     banner: '💥 Clean bulk meals — high calories AND high protein so every extra kilo you add is muscle, not fat. Aim for 500–700 kcal above maintenance and 2g+ protein per kg bodyweight.'
+  },
+  looksmax: {
+    color: 'var(--amber)',
+    banner: '🪞 Primal Diet for looksmaxxing — nutrient-dense animal foods and clean carbs to optimise hormones, skin health, jaw development and overall facial quality. Primary supplier: Dora\'s Dairy, Purton (near Swindon).'
   }
 };
 
@@ -4600,6 +4980,85 @@ const MEALS = [
       serve:['Scoop into a bowl like ice cream','Top with a few dark chocolate chips or sliced banana','Keeps frozen for up to 2 weeks — make a big batch in advance and scoop portions as needed']
     }
   },
+  // ── LOOKSMAX (Primal Diet) ────────────────────────────────────────
+  {
+    goal:'looksmax', type:'breakfast', emoji:'🍳',
+    name:'Butter-Scrambled Eggs (×6)',
+    desc:'6 eggs scrambled low and slow in grass-fed butter or beef tallow. No milk, no water — just eggs, fat, and heat. Maximises cholesterol and fat-soluble vitamins (A, D, K2, E) for testosterone and skin health.',
+    cal:520, protein:42, carbs:2, fat:38,
+    benefits:['Testosterone support','Vitamin A/D/K2','High choline'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Crack 6 eggs into a bowl — do not add milk or water','Whisk briefly, season generously with salt'],
+      cook:['Melt 1–2 tbsp butter or tallow in a pan on low-medium heat','Pour in eggs and stir constantly with a spatula, pulling from the edges to the centre','Remove from heat while still slightly glossy — residual heat finishes cooking','Total time: 4–5 min — never rush scrambled eggs'],
+      serve:['Serve immediately from the pan','Optionally drizzle a little extra raw honey on the side (1 tbsp)','Drink 300–500 mL cold raw milk alongside']
+    }
+  },
+  {
+    goal:'looksmax', type:'breakfast', emoji:'🥛',
+    name:'Raw Milk & Raw Honey',
+    desc:'300–500 mL cold raw milk with 1 tbsp raw honey stirred in. Rich in bioavailable calcium, CLA, lactoferrin, and natural enzymes. The most anabolic morning drink that exists in whole-food form.',
+    cal:280, protein:12, carbs:38, fat:10,
+    benefits:['CLA for body composition','Raw enzymes','Bone density'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Pour 300–500 mL of raw milk from Dora\'s Dairy into a glass','Stir in 1 tbsp raw honey until dissolved'],
+      cook:['No cooking — consume cold or at room temperature'],
+      serve:['Drink alongside breakfast or as a standalone snack on rest days','Add an extra tbsp honey on training days for quick glycogen']
+    }
+  },
+  {
+    goal:'looksmax', type:'lunch', emoji:'🥩',
+    name:'Grass-Fed Beef & Sweet Potato',
+    desc:'300–400 g grass-fed beef (mince, steak or ribeye) with 300–500 g baked sweet potato topped with butter. The core of the primal looksmax stack — saturated fat, zinc, iron, and beta-carotene in one meal.',
+    cal:720, protein:58, carbs:62, fat:28,
+    benefits:['Zinc for testosterone','Beta-carotene for skin','Complete amino acids'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Preheat oven to 200°C. Pierce sweet potato all over with a fork','Season beef with salt generously'],
+      cook:['Bake sweet potato directly on oven rack for 45–60 min until fully soft','Sear beef in beef tallow on high heat — 3–4 min per side for medium rare, 2–3 min per side for mince burgers','Rest beef 3–4 min before eating'],
+      serve:['Split sweet potato open and press ends to open up','Add a generous knob of grass-fed butter into sweet potato','Plate with beef alongside, season both with extra salt if needed']
+    }
+  },
+  {
+    goal:'looksmax', type:'snack', emoji:'🥛',
+    name:'Raw Milk & Honey Snack',
+    desc:'300–500 mL raw milk with 1–2 tbsp raw honey. Perfect post-training recovery drink and between-meal hormone support. Natural sugar + complete protein + fat = ideal anabolic snack.',
+    cal:320, protein:13, carbs:50, fat:10,
+    benefits:['Post-workout recovery','Hormone support','Easy calories'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Pour chilled raw milk into a tall glass','Stir in 1–2 tbsp raw honey — taste and adjust'],
+      cook:['No cooking required'],
+      serve:['Consume 30–60 min after training or between lunch and dinner','On rest days, 1 tbsp honey is sufficient — no need for extra sugar']
+    }
+  },
+  {
+    goal:'looksmax', type:'dinner', emoji:'🍖',
+    name:'Evening Beef, Sweet Potato & Eggs',
+    desc:'300–400 g grass-fed beef + 300–500 g sweet potato + 6 eggs cooked in tallow. The same core ingredients as lunch, slightly different cook method. This ensures you hit your daily 12-egg and 600g+ beef targets.',
+    cal:980, protein:82, carbs:60, fat:42,
+    benefits:['GH-stimulating before sleep','Muscle repair overnight','Maximum daily protein'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Season beef with salt. Crack 6 eggs into bowl and whisk','Pierce sweet potato and bake at 200°C for 45 min, or microwave 8–10 min'],
+      cook:['Sear beef in tallow on high heat to desired doneness','In the same pan (don\'t clean it — use the drippings), fry eggs to preference: sunny side up, over easy, or scrambled'],
+      serve:['Plate beef, sweet potato with butter, and eggs together','Season everything with salt','Eat slowly — this is a large meal, allow 30–40 min to digest before bed']
+    }
+  },
+  {
+    goal:'looksmax', type:'breakfast', emoji:'🫀',
+    name:'Weekly Beef Liver & Eggs',
+    desc:'100–150 g grass-fed beef liver cooked in tallow with 3–4 eggs. Once per week only. The single most micronutrient-dense food on earth — vitamin A, B12, copper, folate, CoQ10, and haem iron in quantities no supplement can match.',
+    cal:380, protein:45, carbs:8, fat:16,
+    benefits:['Vitamin A for skin/bone','Highest B12 source','Copper & iron'],
+    benefitColor:'var(--amber)',
+    instructions:{
+      prep:['Slice beef liver into 1 cm thick strips — trim any sinew','Soak in cold water for 20 min (reduces strong flavour), then pat completely dry','Season with salt'],
+      cook:['Heat tallow in a cast iron pan on high until smoking','Add liver — do NOT overcook: 1.5–2 min per side maximum, still slightly pink inside','Overcooked liver turns grey and rubbery — aim for pink/just cooked in the centre','Fry eggs separately in the same pan after liver is done'],
+      serve:['Eat liver immediately — it doesn\'t keep or reheat well','Serve with fried eggs and a small piece of sweet potato if desired','Eat once per week — more often can cause vitamin A toxicity over long periods']
+    }
+  }
 ];
 
 // ── Meal Favourites ───────────────────────────────────────────────
@@ -4619,7 +5078,7 @@ function toggleFavMeal(name) {
 function setMealGoal(goal) {
   currentMealGoal = goal;
   document.querySelectorAll('#meal-goal-toggle .toggle-btn').forEach((b, i) => {
-    b.classList.toggle('active', ['debloat','muscle','weight','highprotein','bulk','favourites','mymeal'][i] === goal);
+    b.classList.toggle('active', ['debloat','muscle','weight','highprotein','bulk','looksmax','favourites','mymeal'][i] === goal);
   });
   renderMealIdeas();
 }
@@ -4676,7 +5135,7 @@ function renderMealIdeas() {
 
   const TYPE_ICONS  = {breakfast:'🌅',lunch:'☀️',dinner:'🌙',snack:'🍎'};
   const TYPE_LABELS = {breakfast:'Breakfast',lunch:'Lunch',dinner:'Dinner',snack:'Snack'};
-  const GOAL_LABELS = {debloat:'🌊 Debloat',muscle:'💪 Muscle',weight:'⚖️ Weight',highprotein:'🏋️ High Protein',bulk:'💥 Bulk',mymeal:'🧑‍🍳 My Meals'};
+  const GOAL_LABELS = {debloat:'🌊 Debloat',muscle:'💪 Muscle',weight:'⚖️ Weight',highprotein:'🏋️ High Protein',bulk:'💥 Bulk',looksmax:'🪞 Looksmax',mymeal:'🧑‍🍳 My Meals'};
 
   const grid = document.getElementById('meal-ideas-grid');
   if(!filtered.length) {
@@ -5223,6 +5682,184 @@ function nakRating(ratio) {
   if(ratio >= 5)  return {label:'Excellent',   color:'var(--cyan)',  stars:'★★★★☆'};
   if(ratio >= 3)  return {label:'Good',         color:'var(--purple)',stars:'★★★☆☆'};
   return              {label:'Adequate',  color:'var(--amber)', stars:'★★☆☆☆'};
+}
+
+// ==================== LOOKSMAXXING ====================
+function renderLooksmax() {
+  renderLmPhotos();
+  renderLmFacialChecklist();
+  renderLmScore();
+}
+
+function switchLmTab(tab) {
+  document.querySelectorAll('.lm-tab').forEach((b,i) => {
+    b.classList.toggle('active', ['overview','exercises','diet','guidance'][i] === tab);
+  });
+  document.querySelectorAll('.lm-section').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('lm-tab-' + tab);
+  if (el) el.classList.add('active');
+  if (tab === 'exercises') renderLmFacialChecklist();
+}
+
+// ── Photos (stored in localStorage separately — not in Firebase due to size) ──
+function getLmPhotos(type) {
+  try { return JSON.parse(localStorage.getItem('lm_' + type + '_photos') || '[]'); } catch(e) { return []; }
+}
+function saveLmPhotos(type, arr) {
+  localStorage.setItem('lm_' + type + '_photos', JSON.stringify(arr));
+}
+
+function renderLmPhotos() {
+  ['before','goal'].forEach(type => {
+    const photos = getLmPhotos(type);
+    const container = document.getElementById('lm-' + type + '-photos');
+    if (!container) return;
+    if (photos.length === 0) {
+      container.innerHTML = `<div class="looksmax-photo-slot" onclick="addLmPhoto('${type}')">
+        <div class="looksmax-photo-add-icon">📷</div>
+        <div class="looksmax-photo-add-text">Tap to upload photo</div>
+      </div>`;
+    } else {
+      container.innerHTML = photos.map((src, idx) => `
+        <div class="looksmax-photo-slot" style="cursor:default">
+          <img src="${src}" alt="${type} photo ${idx+1}">
+          <div class="looksmax-photo-label">${type === 'before' ? 'BEFORE' : 'GOAL'} ${photos.length > 1 ? idx+1 : ''}</div>
+          <button class="lm-delete-btn" onclick="deleteLmPhoto('${type}',${idx})" title="Remove">✕</button>
+        </div>`).join('');
+    }
+  });
+}
+
+function addLmPhoto(type) {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.multiple = true;
+  input.onchange = function() {
+    const files = Array.from(input.files);
+    if (!files.length) return;
+    const existing = getLmPhotos(type);
+    let loaded = 0;
+    files.forEach(file => {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        existing.push(e.target.result);
+        loaded++;
+        if (loaded === files.length) {
+          saveLmPhotos(type, existing);
+          renderLmPhotos();
+          showToast('📸 ' + files.length + ' photo' + (files.length > 1 ? 's' : '') + ' added!');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  input.click();
+}
+
+function deleteLmPhoto(type, idx) {
+  const photos = getLmPhotos(type);
+  photos.splice(idx, 1);
+  saveLmPhotos(type, photos);
+  renderLmPhotos();
+  showToast('🗑️ Photo removed');
+}
+
+// ── Facial exercises on the Exercises tab (shared data with facial page) ──
+function renderLmFacialChecklist() {
+  const data = getData();
+  const t = today();
+  const exercises = data.facialExercises.exercises || [];
+  const log = data.facialExercises.log[t] || {};
+  const done = log.done || [];
+  const el = document.getElementById('lm-facial-checklist');
+  if (!el) return;
+  if (!exercises.length) {
+    el.innerHTML = '<div style="color:var(--muted);font-size:13px;">No exercises yet — add one below.</div>';
+    return;
+  }
+  el.innerHTML = exercises.map((ex, i) => {
+    const isDone = done.includes(ex);
+    return `<div class="check-item ${isDone ? 'done' : ''}" onclick="toggleLmExercise('${ex.replace(/'/g,"\\'")}')">
+      <div class="check-box">${isDone ? '✓' : ''}</div>
+      <span class="check-label">${ex}</span>
+    </div>`;
+  }).join('');
+}
+
+function toggleLmExercise(name) {
+  const data = getData();
+  const t = today();
+  if (!data.facialExercises.log[t]) data.facialExercises.log[t] = {};
+  const log = data.facialExercises.log[t];
+  if (!log.done) log.done = [];
+  if (log.done.includes(name)) {
+    log.done = log.done.filter(n => n !== name);
+  } else {
+    log.done.push(name);
+  }
+  saveData(data);
+  renderLmFacialChecklist();
+  // Also re-render facial page if it's open
+  if (document.getElementById('page-facial')?.classList.contains('active')) renderFacial();
+}
+
+function addLmFacialExercise() {
+  const input = document.getElementById('lm-facial-new');
+  const name = input?.value.trim();
+  if (!name) return;
+  const data = getData();
+  if (!data.facialExercises.exercises.includes(name)) {
+    data.facialExercises.exercises.push(name);
+    saveData(data);
+  }
+  if (input) input.value = '';
+  renderLmFacialChecklist();
+  showToast('✨ Exercise added!');
+}
+
+function saveLmFacialNotes() {
+  const data = getData();
+  const t = today();
+  if (!data.facialExercises.log[t]) data.facialExercises.log[t] = {};
+  saveData(data);
+  showToast('✅ Facial log saved!');
+}
+
+// ── Today's looksmax quick-score ──
+function renderLmScore() {
+  const data = getData();
+  const t = today();
+  const el = document.getElementById('lm-today-score');
+  if (!el) return;
+
+  const facialLog = data.facialExercises.log[t] || {};
+  const facialDone = (facialLog.done || []).length;
+  const facialTotal = (data.facialExercises.exercises || []).length;
+
+  const mewingLog = data.mewing.log[t] || {};
+  const mewingDone = !!mewingLog.done;
+
+  const sleepLog = data.sleep.log[t] || {};
+  const sleepHours = calcSleepHours(sleepLog.bedtime, sleepLog.wakeTime);
+  const sleepGood = sleepHours >= (data.sleep.goal || 8);
+
+  const water = data.hydration.log[t] || 0;
+  const waterGood = water >= 8;
+
+  const items = [
+    { icon:'✨', label:'Facial', value: facialTotal ? Math.round(facialDone/facialTotal*100)+'%' : '—', good: facialTotal && facialDone === facialTotal },
+    { icon:'😤', label:'Mewing', value: mewingDone ? '✓ Done' : 'Not yet', good: mewingDone },
+    { icon:'😴', label:'Sleep', value: sleepHours ? sleepHours+'h' : 'Not logged', good: sleepGood },
+    { icon:'💧', label:'Water', value: water ? water+' glasses' : 'Not logged', good: waterGood },
+  ];
+
+  el.innerHTML = items.map(it => `
+    <div style="background:var(--card2);border:1px solid ${it.good ? 'var(--green)' : 'var(--border)'};border-radius:12px;padding:14px;text-align:center">
+      <div style="font-size:22px;margin-bottom:4px">${it.icon}</div>
+      <div style="font-size:15px;font-weight:700;color:${it.good ? 'var(--green)' : 'var(--muted2)'}">${it.value}</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px">${it.label}</div>
+    </div>`).join('');
 }
 
 function renderNaFoods() {
